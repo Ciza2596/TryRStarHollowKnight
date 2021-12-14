@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 
 
-public class UnityComponentTests
+public class UnityComponentTest
 {
     [Test]
     public void Should_Velocity_Is_Correct_When_Jump() {

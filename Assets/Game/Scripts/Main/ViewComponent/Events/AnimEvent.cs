@@ -1,4 +1,4 @@
-﻿namespace Main.ViewComponent
+﻿namespace Main.ViewComponent.Events
 {
     public class AnimEvent
     {

@@ -1,18 +1,18 @@
 ﻿using DDDCore;
+using Enitity.Events;
 using Entity.Events;
-using Main.Input;
+using Main.Input.Event;
+using Main.Input.Events;
 using Main.presenter;
-using Main.ViewComponent;
+using Main.ViewComponent.Events;
 
 namespace Main.EventHandler.View
 {
-    public class ViewEventHandler: DDDCore.EventHandler
+    public class ViewEventHandler : DDDCore.EventHandler
     {
-
         public ViewEventHandler(IDomainEventBus domainEventBus,
-                                     ActorPresenter actorPresenter)
+                                ActorPresenter  actorPresenter)
             : base(domainEventBus) {
-
             var signalBus = domainEventBus.SignalBus;
             //domain Event
             Register<ActorCreated>(created => {
@@ -20,18 +20,22 @@ namespace Main.EventHandler.View
                                                                      created.ActorDataId,
                                                                      created.Direction);
                                    });
-            Register <DirectionChanged>(changed => {
-                                            actorPresenter.OnDirectionChanged(changed.ActorId,
-                                                                              changed.Direction);  
-                                        });
-            
+            Register<DirectionChanged>(changed => {
+                                           actorPresenter.OnDirectionChanged(changed.ActorId,
+                                                                             changed.Direction);
+                                       });
+            Register<DamageDealt>(damageDealt => {
+                                      actorPresenter.OnDamageDealt(damageDealt.ActorId,
+                                                                   damageDealt.CurrentHealth);
+                                  });
+
+            Register<ActorDead>(dead => { actorPresenter.OnActorDead(dead.ActorId); });
+
             //some view event
-            signalBus.Subscribe<Input_Horizontal> (actorPresenter.OnHorizontalChanged);
-            signalBus.Subscribe<ButtonDownJump> (actorPresenter.OnButtonDownJump);
-            signalBus.Subscribe<ButtonDownAttack> (actorPresenter.OnButtonDownAttack);
-            signalBus.Subscribe<AnimEvent> (actorPresenter.OnAnimationTriggered);
+            signalBus.Subscribe<InputHorizontal>(actorPresenter.OnHorizontalChanged);
+            signalBus.Subscribe<ButtonDownJump>(actorPresenter.OnButtonDownJump);
+            signalBus.Subscribe<ButtonDownAttack>(actorPresenter.OnButtonDownAttack);
+            signalBus.Subscribe<HitBoxTriggered>(actorPresenter.OnHitBoxTriggered);
         }
-        
-        
     }
 }

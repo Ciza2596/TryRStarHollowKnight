@@ -2,7 +2,7 @@
 using NUnit.Framework;
 
 
-public class CharacterConditionTests
+public class CharacterConditionTest
 {
     private CharacterCondition _characterCondition;
 
@@ -21,7 +21,19 @@ public class CharacterConditionTests
         _characterCondition.IsOnGround  = isOnGround;
 
         //Assert
-        Should_Response(true);
+        Should_CanMove_Response(true);
+    }
+
+    [Test]
+    [TestCase(true, false)]
+    [TestCase(false, true)]
+    public void Should_Return_False_With_IsDead_True(bool isDead, bool exceptedCanMoving) {
+        //Act
+        _characterCondition.IsDead   = isDead;
+        _characterCondition.IsMoving = true;
+        
+        //Assert
+        Should_CanMove_Response(exceptedCanMoving);
     }
 
     [Test]
@@ -34,16 +46,16 @@ public class CharacterConditionTests
         _characterCondition.IsOnGround  = isOnGround;
 
         //Assert
-        Should_Response(false);
+        Should_CanMove_Response(false);
     }
 
     [Test]
     public void Should_Return_False_When_IsMoving_False() {
         //Assert
-        Should_Response(false);
+        Should_CanMove_Response(false);
     }
 
-    private void Should_Response(bool expectedCanMove) {
+    private void Should_CanMove_Response(bool expectedCanMove) {
         var canMove = _characterCondition.CanMove();
         Assert.AreEqual(expectedCanMove, canMove);
     }

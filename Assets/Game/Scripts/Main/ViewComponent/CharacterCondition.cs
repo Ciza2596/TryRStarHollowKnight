@@ -6,6 +6,7 @@ namespace Main.ViewComponent
 {
     public interface ICharacterCondition
     {
+        public bool IsDead      { get; set; }
         public bool IsMoving    { get; set; }
         public bool IsAttacking {get;  set; }
         public bool IsOnGround  { get; set; }
@@ -18,6 +19,9 @@ namespace Main.ViewComponent
     {
     #region Public Variables
         [ShowInInspector]
+        public bool IsDead { get; set; }
+        
+        [ShowInInspector]
         public bool IsMoving    { get; set; }
         [ShowInInspector]
         public bool IsAttacking { get; set; }
@@ -29,6 +33,10 @@ namespace Main.ViewComponent
     #region public Methods
 
         public bool CanMove() {
+
+            if(IsDead)
+                return false;
+            
             //在地面且攻擊，不可移動，空中可以左右移動
             if (IsMoving) {
                 if (IsAttacking) {

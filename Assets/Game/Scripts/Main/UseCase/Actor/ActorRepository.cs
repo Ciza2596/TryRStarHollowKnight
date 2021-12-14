@@ -1,6 +1,6 @@
 ﻿using DDDCore.Usecase;
 
-namespace Main.UseCase.Respository
+namespace Main.UseCase.Repository
 {
     public class ActorRepository: AbstractRepository<Entity.Actor>
     {

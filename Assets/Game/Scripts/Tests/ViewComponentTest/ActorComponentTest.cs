@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class ActorComponentTests
+public class ActorComponentTest
 {
     private GameObject          _gameObject;
     private ActorComponent      _actorComponent;
@@ -22,15 +22,14 @@ public class ActorComponentTests
 
     #region Text
 
-        _textComponent                   = _gameObject.AddComponent<Text>();
-        _actorComponent.Text_IdAndDataId = _textComponent;
+        _textComponent = _gameObject.AddComponent<Text>();
 
     #endregion
 
     #region Renderer
 
-        _rendererTransform             = new GameObject("Renderer").transform;
-        _actorComponent.ActorTransform = _rendererTransform;
+        _rendererTransform                = new GameObject("Renderer").transform;
+        _actorComponent.RendererTransform = _rendererTransform;
 
     #endregion
 
@@ -52,17 +51,36 @@ public class ActorComponentTests
     }
 
 
+#region Text
+
     [Test]
-    public void Should_Succeed_When_Call_SetTest() {
+    public void Should_Succeed_When_Call_SetTest_ForIdAndDataId() {
         //arrange
+        _actorComponent.Text_IdAndDataId = _textComponent;
         var displayText = "dhipskl";
 
         //act
-        _actorComponent.SetText(displayText);
+        _actorComponent.SetIdAndDataId(displayText);
         //assert
         Assert.NotNull(_actorComponent.Text_IdAndDataId);
         Assert.AreEqual(displayText, _actorComponent.Text_IdAndDataId.text);
     }
+
+    [Test]
+    public void Should_Succeed_When_Call_SetTest_ForHealth() {
+        //arrange
+        _actorComponent.Text_Health = _textComponent;
+        var health      = 123;
+        var displayText = $"Health: {health}";
+
+        //act
+        _actorComponent.SetHealthText(health);
+        //assert
+        Assert.NotNull(_actorComponent.Text_Health);
+        Assert.AreEqual(displayText, _actorComponent.Text_Health.text);
+    }
+
+#endregion
 
     [Test]
     [TestCase(1, -1)]
@@ -186,6 +204,60 @@ public class ActorComponentTests
         Assert.AreEqual(false, _characterCondition.IsAttacking);
     }
 
-
 #endregion
+
+    [Test]
+    public void Should_Call_PlayAnimation_Die_When_Call_MakeDie() {
+        //act
+        _actorComponent.MakeDie();
+
+        //assert
+        _unityComponent.Received(1).PlayAnimation("Die");
+    }
+    
+    [Test]
+    public void Should_Hide_Id_Health_Text_When_Call_MakeDie() {
+        //arrange
+        var textComponentForHealth = new GameObject().AddComponent<Text>();
+        _actorComponent.Text_IdAndDataId = _textComponent;
+        _actorComponent.Text_Health      = textComponentForHealth;
+        Assert.AreEqual(true, _textComponent.enabled);
+        Assert.AreEqual(true, textComponentForHealth.enabled);
+        
+        //act
+        _actorComponent.MakeDie();
+
+        //assert
+        Assert.AreEqual(false, _textComponent.enabled);
+        Assert.AreEqual(false, textComponentForHealth.enabled);
+    }
+    
+    [Test]
+    public void Should_Set_Condition_IsDead_When_Call_MakeDie() {
+        //Act
+        _actorComponent.MakeDie();
+        
+        //Assert
+        Assert.AreEqual(true, _characterCondition.IsDead);
+    }
+    
+    [Test]
+    public void Should_Not_Call_Play_Animation_When_Call_SetIsMoving_With_actor_Is_Dead() {
+        //Act
+        _characterCondition.IsDead = true;
+        _actorComponent.SetIsMoving(false);
+        
+        //Assert
+        _unityComponent.DidNotReceiveWithAnyArgs().PlayAnimation("Idle");
+    }
+
+    [Test]
+    public void Should_Not_Call_Play_Animation_When_Call_Attack_With_actor_Is_Dead() {
+        //Act
+        _characterCondition.IsDead = true;
+        _actorComponent.Attack();
+        //Assert
+        _unityComponent.DidNotReceiveWithAnyArgs().PlayAnimation("Attack");
+        
+    }
 }

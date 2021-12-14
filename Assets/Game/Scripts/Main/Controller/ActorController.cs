@@ -1,13 +1,15 @@
 ﻿using Main.UseCase.Actor.Create;
-using Main.UseCase.Actors.Edit;
+using Main.UseCase.Actor.Edit;
 using Zenject;
 
 namespace Main.Controller
 {
     public class ActorController
     {
-        [Inject] private CreateActorUseCase _createActorUseCase;
+        [Inject] private CreateActorUseCase     _createActorUseCase;
         [Inject] private ChangeDirectionUseCase _changeDirectionUseCase;
+        [Inject] private DealDamageUseCase      _dealDamageUseCase;
+        [Inject] private MakeActorDieUseCase    _makeActorDieUseCase;
 
         public void CreateActor(string actorDataId) {
             var input = new CreateActorInput();
@@ -20,6 +22,19 @@ namespace Main.Controller
             input.ActorId   = actorId;
             input.Direction = direction;
            _changeDirectionUseCase.Execute (input); 
+        }
+
+        public void DealDamage(string actorId, int damage) {
+            var input = new DealDamageInput();
+            input.ActorId = actorId;
+            input.Damage  = damage;
+            _dealDamageUseCase.Execute (input); 
+        }
+        
+        public void MakeActorDie(string actorId) {
+            var input = new MakeActorDieInput();
+            input.ActorId = actorId;
+            _makeActorDieUseCase.Execute (input); 
         }
     }
 }

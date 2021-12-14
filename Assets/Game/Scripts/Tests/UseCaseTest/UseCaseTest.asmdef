@@ -7,7 +7,8 @@
         "UseCase",
         "Entity",
         "DDDCore",
-        "DDDTestFramework"
+        "DDDTestFramework",
+        "GameDataSctruct"
     ],
     "includePlatforms": [
         "Editor"

@@ -1,7 +1,7 @@
 ﻿using System;
 using Entity.Model;
-using Main.UseCase.Actors.Edit;
-using Main.UseCase.Respository;
+using Main.UseCase.Actor.Edit;
+using Main.UseCase.Repository;
 using MainTests.ExtenjectTestFramwork;
 using NUnit.Framework;
 

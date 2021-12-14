@@ -1,3 +1,4 @@
+using Main.ViewComponent.Events;
 using UnityEngine;
 using Zenject;
 

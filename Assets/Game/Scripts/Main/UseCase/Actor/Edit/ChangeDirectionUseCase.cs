@@ -1,8 +1,8 @@
 ﻿using DDDCore;
 using DDDCore.Usecase;
-using Main.UseCase.Respository;
+using Main.UseCase.Repository;
 
-namespace Main.UseCase.Actors.Edit
+namespace Main.UseCase.Actor.Edit
 {
     public class ChangeDirectionInput : DDDCore.Usecase.Input
     {

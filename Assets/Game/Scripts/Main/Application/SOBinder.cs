@@ -1,4 +1,4 @@
-﻿using Main.ScriptableObject;
+﻿using Main.GameDataStructure;
 using UnityEngine;
 using Zenject;
 

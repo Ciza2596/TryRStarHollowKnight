@@ -1,3 +1,5 @@
+using Main.Input.Event;
+using Main.Input.Events;
 using Rewired;
 using Zenject;
 
@@ -9,7 +11,7 @@ namespace Main.Input
         private int    _playerId = 0;
         private bool   _initialized;
 
-        private float lastHorizontalValue = -999;
+        private float _lastHorizontalValue = -999;
         
         [Inject] private SignalBus _signalBus;
         
@@ -36,9 +38,9 @@ namespace Main.Input
 
             // -1:left, 0:no press, 1:right
             var horizontalValue = _player.GetAxisRaw ("Move Horizontal");
-            if(lastHorizontalValue != horizontalValue)
-                _signalBus.Fire(new Input_Horizontal(horizontalValue));
-            lastHorizontalValue = horizontalValue;    
+            if(_lastHorizontalValue != horizontalValue)
+                _signalBus.Fire(new InputHorizontal(horizontalValue));
+            _lastHorizontalValue = horizontalValue;    
 
         #endregion
 
@@ -60,23 +62,6 @@ namespace Main.Input
 
         #endregion
 
-        }
-    }
-
-    public class ButtonDownAttack
-    {
-    }
-
-    public class ButtonDownJump
-    {
-    }
-
-    public class Input_Horizontal
-    {
-        public float HorizontalValue { get; }
-
-        public Input_Horizontal(float horizontalValue) {
-            HorizontalValue = horizontalValue;
         }
     }
 }

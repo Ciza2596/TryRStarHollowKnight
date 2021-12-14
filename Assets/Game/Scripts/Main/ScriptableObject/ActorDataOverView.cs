@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Main.ScriptableObject
+namespace Main.GameDataStructure
 {
     [CreateAssetMenu (fileName = "ActorDataOverView", menuName = "HK/CreateActorDataOverView")]
     public class ActorDataOverView : UnityEngine.ScriptableObject

@@ -1,7 +1,9 @@
 {
     "name": "GameDataSctruct",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:1f37c6ac94aa8614e82b2141ec1f7534"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

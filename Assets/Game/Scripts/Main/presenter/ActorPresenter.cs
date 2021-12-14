@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using DDDCore.Adapter.Presenter.Unity;
-//using Entity.Events;
-using Main.ScriptableObject;
+using Main.GameDataStructure;
 using Main.Controller;
-using Main.Input;
-using Main.ViewComponent;
+using Main.Input.Event;
+using Main.Input.Events;
+using Main.ViewComponent.Events;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -15,11 +15,10 @@ namespace Main.presenter
     public class ActorPresenter : UnityPresenter
     {
         [Inject] private ActorController _actorController;
-
-        [SerializeField] private Button _button_CreateActor_A;
-        [SerializeField] private Button _button_CreateActor_B;
-        [SerializeField] private Button _button_CreateActor_C;
-        [SerializeField] private Button _button_ChangeDirection;
+        
+        [SerializeField] private Button _button_CreateActor_Player;
+        [SerializeField] private Button _button_CreateActor_DealDamage;
+        [SerializeField] private Button _button_MakeActorDie;
 
         [Inject] private ActorMapper     _actorMapper;
         [Inject] private List<ActorData> _actorDatas;
@@ -29,14 +28,9 @@ namespace Main.presenter
 
 
         private void Start() {
-            ButtonBinding (_button_CreateActor_A,   () => _actorController.CreateActor (_actorDatas[0].ActorDataId));
-            ButtonBinding (_button_CreateActor_B,   () => _actorController.CreateActor (_actorDatas[1].ActorDataId));
-            ButtonBinding (_button_CreateActor_C,   () => _actorController.CreateActor (_actorDatas[2].ActorDataId));
-            ButtonBinding (_button_ChangeDirection, () => {
-
-                _direction = _direction == 0 ? 1 : 0;
-                _actorController.ChangeDirection (_cacheActorId, _direction);
-            });
+            ButtonBinding (_button_CreateActor_Player,   () => _actorController.CreateActor (_actorDatas[1].ActorDataId));
+            ButtonBinding (_button_CreateActor_DealDamage,   () => _actorController.DealDamage(_cacheActorId, 10));
+            ButtonBinding(_button_MakeActorDie, () => _actorController.MakeActorDie(_cacheActorId));
         }
 
         
@@ -53,7 +47,7 @@ namespace Main.presenter
             }
         }
 
-        public void OnHorizontalChanged(Input_Horizontal inputHorizontal) {
+        public void OnHorizontalChanged(InputHorizontal inputHorizontal) {
 
             if (!string.IsNullOrEmpty (_cacheActorId)) {
                 var horizontalValue = inputHorizontal.HorizontalValue;
@@ -82,22 +76,23 @@ namespace Main.presenter
             }
         }
 
-        public void OnAnimationTriggered(AnimEvent animEvent) {
-            var actorComponent =  _actorMapper.GetActorComponent(_cacheActorId);
-            var transform      = actorComponent.transform;
-            var origin         = transform.position;
-            var direction      = actorComponent.CurrentDirectionValue == 0 ? Vector2.left : Vector2.right;
-            var raycastHit2Ds =  Physics2D.BoxCastAll (origin, new Vector2 (2, 1), 0, direction);
-            if (raycastHit2Ds.Length > 0) {
+        public void OnHitBoxTriggered(HitBoxTriggered hitBoxTriggered) {
 
-                foreach (var raycastHit2D in raycastHit2Ds) {
-                    if (raycastHit2D.transform.gameObject != actorComponent.gameObject) {
-                        var hitActorComponent = raycastHit2D.transform.GetComponent<ActorComponent>();
-                        hitActorComponent.UnityComponent.PlayAnimation ("Hit");
-                    }
+            var triggerActorComponent = hitBoxTriggered.TriggerActorComponent;
+            triggerActorComponent.UnityComponent.PlayAnimation("Hit");
+            
+        }
 
-                }
+        public void OnDamageDealt(string actorId, int currentHealth) {
+            if (!string.IsNullOrEmpty (_cacheActorId)) {
+                var actorComponent = _actorMapper.GetActorComponent (actorId);
+                actorComponent.SetHealthText(currentHealth);
             }
+        }
+
+        public void OnActorDead(string actorId) {
+            var actorComponent = _actorMapper.GetActorComponent(actorId);
+            actorComponent.MakeDie();
         }
     }
 }
