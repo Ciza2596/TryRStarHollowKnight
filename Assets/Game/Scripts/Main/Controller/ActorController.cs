@@ -8,7 +8,6 @@ namespace Main.Controller
     {
         [Inject] private CreateActorUseCase     _createActorUseCase;
         [Inject] private ChangeDirectionUseCase _changeDirectionUseCase;
-        [Inject] private DealDamageUseCase      _dealDamageUseCase;
         [Inject] private MakeActorDieUseCase    _makeActorDieUseCase;
 
         public void CreateActor(string actorDataId) {
@@ -22,13 +21,6 @@ namespace Main.Controller
             input.ActorId   = actorId;
             input.Direction = direction;
            _changeDirectionUseCase.Execute (input); 
-        }
-
-        public void DealDamage(string actorId, int damage) {
-            var input = new DealDamageInput();
-            input.ActorId = actorId;
-            input.Damage  = damage;
-            _dealDamageUseCase.Execute (input); 
         }
         
         public void MakeActorDie(string actorId) {

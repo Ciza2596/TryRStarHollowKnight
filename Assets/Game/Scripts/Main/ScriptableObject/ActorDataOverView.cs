@@ -1,15 +1,26 @@
 ﻿using System.Collections.Generic;
+using Main.DomainData;
 using UnityEngine;
 
 namespace Main.GameDataStructure
 {
     [CreateAssetMenu (fileName = "ActorDataOverView", menuName = "HK/CreateActorDataOverView")]
-    public class ActorDataOverView : UnityEngine.ScriptableObject
+    public class ActorDataOverview : ScriptableObject ,IActorDataOverview
     {
-        public List<ActorData> ActorDatas = new List<ActorData>();
+        [SerializeField]
+        private List<ActorData> _actorDatas = new List<ActorData>();
 
-        public ActorData FindActorData(string actorDataId) {
-            return ActorDatas.Find ( data => data.ActorDataId == actorDataId);
+        public IActorData FindActorData(string actorDataId) {
+            return _actorDatas.Find( data => data.ActorDataId == actorDataId);
         }
+
+        public List<ActorData> FindAll() => _actorDatas;
+    }
+
+    public interface IActorDataOverview
+    {
+        IActorData FindActorData(string actorDataId);
+
+        List<ActorData> FindAll();
     }
 }

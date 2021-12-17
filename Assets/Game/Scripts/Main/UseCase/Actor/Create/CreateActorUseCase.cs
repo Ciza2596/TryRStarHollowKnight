@@ -1,11 +1,11 @@
 ﻿using DDDCore;
 using DDDCore.Usecase;
-using Entity.Model;
+using Main.Entity.Actor;
 using Main.UseCase.Repository;
 
 namespace Main.UseCase.Actor.Create
 {
-    public class CreateActorInput : DDDCore.Usecase.Input
+    public class CreateActorInput : Input
     {
         public string ActorId;
         public string ActorDataId;
@@ -24,16 +24,14 @@ namespace Main.UseCase.Actor.Create
         }
 
         public override void Execute(CreateActorInput input) {
-            var actorDataId     = input.ActorDataId;
-            var actorDomainData = _dataRepository.GetActorDomainData(actorDataId);
-            var health          = actorDomainData.Health;
-            
-            //var actor = new Main.Actor.Actor (input.ActorId, input.ActorDataId);
+            var actorId     = input.ActorId;
+            var actorDataId = input.ActorDataId;
+
             var actor =  ActorBuilder.NewInstance()
-                                     .SetActorId (input.ActorId)
-                                     .SetActorDataId (input.ActorDataId)
-                                     .SetHealth(health)
+                                     .SetActorId (actorId)
+                                     .SetActorDataId (actorDataId)
                                      .Build();
+            
             repository.Save (actor);
             domainEventBus.PostAll (actor);
         }

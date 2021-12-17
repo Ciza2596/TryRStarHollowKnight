@@ -1,6 +1,6 @@
 ﻿using DDDCore.Model;
 
-namespace Entity.Events
+namespace Main.Entity.Actor.Events
 {
     public class DamageDealt : DomainEvent
     {

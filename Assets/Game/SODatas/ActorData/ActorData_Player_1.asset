@@ -12,5 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 824c611fc0de4cfd81dbc8bfe1a3ec28, type: 3}
   m_Name: ActorData_Player_1
   m_EditorClassIdentifier: 
-  ActorDataId: Player_1
+  _actorDataId: Player_1
   ActorPrefab: {fileID: 248098937865100579, guid: 09a486697412a604c88e016a011c669d, type: 3}
+  _health: 10
+  _atk: 1
+  _stateDatas:
+  - _stateName: HP
+    _amount: 100
+  - _stateName: MP
+    _amount: 50

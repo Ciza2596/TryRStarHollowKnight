@@ -10,7 +10,7 @@ namespace DDDCore.Usecase
     /// </summary>
     /// <typeparam name="I">Input</typeparam>
     /// <typeparam name="R">Repository</typeparam>
-    public abstract class UseCase<I , R> where I: Input
+    public abstract class UseCase<I , R>
     {
     #region Protected Variables
 

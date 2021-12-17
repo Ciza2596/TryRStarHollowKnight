@@ -1,6 +1,5 @@
 ﻿using DDDCore;
-using Enitity.Events;
-using Entity.Events;
+using Main.Entity.Actor.Events;
 using Main.Input.Event;
 using Main.Input.Events;
 using Main.presenter;
@@ -8,9 +7,9 @@ using Main.ViewComponent.Events;
 
 namespace Main.EventHandler.View
 {
-    public class ViewEventHandler : DDDCore.EventHandler
+    public class ActorViewEventHandler : DDDCore.EventHandler
     {
-        public ViewEventHandler(IDomainEventBus domainEventBus,
+        public ActorViewEventHandler(IDomainEventBus domainEventBus,
                                 ActorPresenter  actorPresenter)
             : base(domainEventBus) {
             var signalBus = domainEventBus.SignalBus;

@@ -1,0 +1,22 @@
+{
+    "name": "ViewEventHandler",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7590400bc4ff7fb45961bbe4e9be5cec",
+        "GUID:27de627fc0c770049a22507b0df6afe4",
+        "GUID:507d9b785c68f794991ac9a40ae6b33b",
+        "GUID:c544af1dbe8859b46a822af6dc2100b8",
+        "GUID:4483ba0440e000e4285c1807828da3b4",
+        "GUID:d83ba06c5608d63478824e71b727deb4",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

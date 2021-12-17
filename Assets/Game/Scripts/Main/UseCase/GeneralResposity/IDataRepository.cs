@@ -1,8 +1,10 @@
 ﻿
+using Main.DomainData;
+
 namespace Main.UseCase.Repository
 {
     public interface IDataRepository
     {
-        ActorDomainData  GetActorDomainData(string actorDataId);
+        IActorData  GetActorDomainData(string actorDataId);
     }
 }

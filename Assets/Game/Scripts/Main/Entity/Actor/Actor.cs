@@ -1,8 +1,7 @@
 ﻿using DDDCore.Model;
-using Enitity.Events;
-using Entity.Events;
+using Main.Entity.Actor.Events;
 
-namespace Entity
+namespace Main.Entity.Actor
 {
     public class Actor: AggregateRoot　
     {
@@ -10,8 +9,7 @@ namespace Entity
     #region Public Variables
         public string ActorDataId { get; }                  
         public int    Direction   { get; private set; }
-        public int    Health      { get; private set; }
-        public bool IsDead      { get; private set;}
+        public bool   IsDead      { get; private set;}
 
     #endregion
 
@@ -19,12 +17,10 @@ namespace Entity
     #region Constructor
 
         public Actor(string actorId, 
-                     string actorDataId,
-                     int health)
+                     string actorDataId)
             : base(actorId) {
             
             ActorDataId = actorDataId;
-            Health      = health;
             Direction   = 1;
             AddDomainEvent (new ActorCreated(GetId(), ActorDataId, Direction));
         }
@@ -38,9 +34,9 @@ namespace Entity
         }
 
         public void DealDamage(int damage) {
-            Health -= damage;
+            //Health -= damage;
             
-            AddDomainEvent(new DamageDealt(GetId(),Health));
+            //AddDomainEvent(new DamageDealt(GetId(),Health));
         }
 
         public void MakeDie() {

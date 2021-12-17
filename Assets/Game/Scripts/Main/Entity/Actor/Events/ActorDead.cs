@@ -1,6 +1,6 @@
 ﻿using DDDCore.Model;
 
-namespace Enitity.Events
+namespace Main.Entity.Actor.Events
 {
     public class ActorDead : DomainEvent
     {

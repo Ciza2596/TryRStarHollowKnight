@@ -7,11 +7,10 @@ namespace Main.Application
     [CreateAssetMenu(fileName =  "SOBinder", menuName = "HK/SoBinder")]
     public class SOBinder : ScriptableObjectInstaller
     {
-        public ActorDataOverView ActorDataOverView;         
+        public ActorDataOverview actorDataOverview;         
 
         public override void InstallBindings() {
-            Container.BindInstance (ActorDataOverView.ActorDatas);
-            Container.BindInstance (ActorDataOverView);
+            Container.BindInstance (actorDataOverview as IActorDataOverview);
         }
     }
 }

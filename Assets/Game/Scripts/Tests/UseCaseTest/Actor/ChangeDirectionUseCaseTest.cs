@@ -1,5 +1,5 @@
 ﻿using System;
-using Entity.Model;
+using Main.Entity.Actor;
 using Main.UseCase.Actor.Edit;
 using Main.UseCase.Repository;
 using MainTests.ExtenjectTestFramwork;

@@ -1,6 +1,5 @@
-﻿using Enitity.Events;
-using Entity.Events;
-using Entity.Model;
+﻿using Main.Entity.Actor.Events;
+using Main.Entity.Actor;
 using NUnit.Framework;
 
 
@@ -60,7 +59,6 @@ public class ActorEventTest
         var damage  = 89;
         var actor = ActorBuilder.NewInstance()
                                 .SetActorId(actorId)
-                                .SetHealth(health)
                                 .Build();
         actor.DealDamage(damage);
         var domainEvents = actor.GetDomainEvents();

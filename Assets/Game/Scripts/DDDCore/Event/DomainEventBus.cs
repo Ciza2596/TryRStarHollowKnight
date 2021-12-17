@@ -31,7 +31,6 @@ namespace DDDCore
         public DomainEventBus(SignalBus signalBus)
         {
             SignalBus = signalBus;
-            SignalBus = signalBus;
             SignalBus.Subscribe<DomainEvent>(HandleEvent);
         }
 

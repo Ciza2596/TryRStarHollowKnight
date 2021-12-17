@@ -1,9 +1,9 @@
-#region
 
+
+using System;
 using System.Collections.Generic;
 using DDDCore.Model;
 
-#endregion
 
 namespace DDDCore.Usecase
 {

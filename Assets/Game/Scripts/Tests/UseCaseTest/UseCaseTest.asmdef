@@ -4,11 +4,11 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
+        "DDDTestFramework",
+        "DDDCore",
         "UseCase",
         "Entity",
-        "DDDCore",
-        "DDDTestFramework",
-        "GameDataSctruct"
+        "DomainData"
     ],
     "includePlatforms": [
         "Editor"

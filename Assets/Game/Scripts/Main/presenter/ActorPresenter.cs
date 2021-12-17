@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DDDCore.Adapter.Presenter.Unity;
+﻿using DDDCore.Adapter.Presenter.Unity;
 using Main.GameDataStructure;
 using Main.Controller;
 using Main.Input.Event;
@@ -17,20 +16,18 @@ namespace Main.presenter
         [Inject] private ActorController _actorController;
         
         [SerializeField] private Button _button_CreateActor_Player;
-        [SerializeField] private Button _button_CreateActor_DealDamage;
         [SerializeField] private Button _button_MakeActorDie;
 
         [Inject] private ActorMapper     _actorMapper;
-        [Inject] private List<ActorData> _actorDatas;
+        [Inject] private IActorDataOverview _actorDataOverView;
         
         private string     _cacheActorId;
         private int        _direction;
 
 
         private void Start() {
-            ButtonBinding (_button_CreateActor_Player,   () => _actorController.CreateActor (_actorDatas[1].ActorDataId));
-            ButtonBinding (_button_CreateActor_DealDamage,   () => _actorController.DealDamage(_cacheActorId, 10));
-            ButtonBinding(_button_MakeActorDie, () => _actorController.MakeActorDie(_cacheActorId));
+            ButtonBinding (_button_CreateActor_Player,     () => _actorController.CreateActor(_actorDataOverView.FindAll()[1].ActorDataId));
+            ButtonBinding(_button_MakeActorDie,            () => _actorController.MakeActorDie(_cacheActorId));
         }
 
         

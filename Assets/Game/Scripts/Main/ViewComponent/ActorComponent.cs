@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine.UI;
@@ -17,7 +18,6 @@ namespace Main.ViewComponent
         [ShowInInspector] public ICharacterCondition CharacterCondition;
 
         [Required]       public  Text      Text_IdAndDataId;
-        [Required]       public  Text      Text_Health;
         [Required]       public  Transform RendererTransform;
         [SerializeField] private Animator  _animator;
 
@@ -28,9 +28,13 @@ namespace Main.ViewComponent
         private                  int   _moveSpeed = 5;
         [SerializeField] private float _radius    = 0.1f;
 
-        [SerializeField] [Required] private BoxCollider2D boxCollider_HitBox;
+        [SerializeField] [Required] private BoxCollider2D _boxCollider_HitBox;
 
-        private Rigidbody2D _rigidbody2D;
+        [SerializeField] private Transform  _stateParent;
+        [SerializeField] private GameObject _stateTemplate;
+
+        private Dictionary<string, StateComponent> _stateComponents = new Dictionary<string, StateComponent>();
+        private Rigidbody2D                        _rigidbody2D;
 
     #region Public Methods
 
@@ -51,7 +55,6 @@ namespace Main.ViewComponent
 
         public void SetHealthText(int health) {
             string displayText = $"Health: {health}";
-            Text_Health.text = displayText;
         }
 
         public void SetDirection(int directionValue) {
@@ -77,8 +80,8 @@ namespace Main.ViewComponent
             UnityComponent.PlayAnimation("Die");
             if(Text_IdAndDataId != null)
                 Text_IdAndDataId.enabled = false;
-            if(Text_Health != null)
-                Text_Health.enabled = false;
+            // if(Text_Health != null)
+            //     Text_Health.enabled = false;
         }
 
         public void Attack() {
@@ -102,6 +105,21 @@ namespace Main.ViewComponent
             Vector3 directionValue = (CurrentDirectionValue == 0) ? Vector3.left : Vector3.right;
             return directionValue * _moveSpeed * Time.deltaTime;
         }
+        
+        public void CreateState(string stateName, int amount) {
+            var stateInstance = Instantiate(_stateTemplate, _stateParent);
+            stateInstance.transform.position += new Vector3(0, 0.65f * _stateParent.childCount-1, 0);
+            
+            var stateComponent = stateInstance.GetComponent<StateComponent>();
+            stateComponent.SetText(stateName, amount);
+            _stateComponents.Add(stateName, stateComponent);
+        }
+        
+        public void SetStateText(string stateName, int amount) {
+
+            var stateComponent = _stateComponents[stateName];
+            stateComponent.SetText(stateName, amount);
+        }
 
     #endregion
 
@@ -118,7 +136,7 @@ namespace Main.ViewComponent
             CharacterCondition = new CharacterCondition();
 
             //listen hit box trigger event
-            boxCollider_HitBox.OnTriggerEnter2DAsObservable()
+            _boxCollider_HitBox.OnTriggerEnter2DAsObservable()
                               .Subscribe(collider2D => OnHitBoxTriggered(collider2D))
                               .AddTo(gameObject);
         }
@@ -155,5 +173,6 @@ namespace Main.ViewComponent
         }
 
     #endregion
+        
     }
 }

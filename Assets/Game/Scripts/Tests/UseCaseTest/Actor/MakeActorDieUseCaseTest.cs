@@ -1,4 +1,4 @@
-﻿using Entity.Model;
+﻿using Main.Entity.Actor;
 using Main.UseCase.Repository;
 using MainTests.ExtenjectTestFramwork;
 using NUnit.Framework;

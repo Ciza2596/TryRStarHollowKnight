@@ -1,5 +1,6 @@
 #region
 
+using System;
 using System.Collections.Generic;
 
 #endregion
@@ -15,7 +16,7 @@ namespace DDDCore.Usecase
         void    DeleteById(string id);
         List<T> FindAll();
         T       FindById(string id);
-        void    Save(T          entity);
+        void    Save(T     entity);
 
     #endregion
     }

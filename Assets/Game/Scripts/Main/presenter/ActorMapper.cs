@@ -3,7 +3,6 @@ using Main.GameDataStructure;
 using Main.ViewComponent;
 using UnityEngine;
 using Zenject;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Main.presenter
@@ -13,20 +12,20 @@ namespace Main.presenter
         private List<ActorViewData> _actorViewDatas = new List<ActorViewData>();
 
         [Inject] private DiContainer       _container;
-        [Inject] private ActorDataOverView _actorDataOverView;
+        [Inject] private IActorDataOverview _actorDataOverview;
 
         public void CreateActorViewData(string actorId, string actorDataId, int direction) {
-            var actorData   = _actorDataOverView.FindActorData(actorDataId);
+            var actorData   = _actorDataOverview.FindActorData(actorDataId) as ActorData;
             var actorPrefab = actorData.ActorPrefab;
             var actorInstance =
                 _container.InstantiatePrefab(actorPrefab, Random.insideUnitCircle * 5, Quaternion.identity, null);
 
             var actorComponent   = actorInstance.GetComponent<ActorComponent>();
             var text_IdAndDataId = $"{actorDataId} - {actorId.Substring(actorId.Length - 2, 1)}";
-            var health        = actorData.ActorDomainData.Health;
+            //var health        = actorData.Health;
             actorComponent.SetIdAndDataId(text_IdAndDataId);
             actorComponent.SetDirection(direction);
-            actorComponent.SetHealthText(health);
+            //actorComponent.SetHealthText(health);
             var actorViewData = new ActorViewData(actorId, actorDataId, actorComponent);
             _actorViewDatas.Add(actorViewData);
         }

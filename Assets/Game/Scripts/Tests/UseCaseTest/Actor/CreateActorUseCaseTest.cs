@@ -1,3 +1,4 @@
+using Main.DomainData;
 using NUnit.Framework;
 using Main.UseCase.Actor.Create;
 using Main.UseCase.Repository;
@@ -12,11 +13,10 @@ public class CreateActorUseCaseTest : DDDUnitTestFixture
 
         var actorId     = "1234";
         var actorDataId = "Pokemon";
-        var health      = 123;
-        
-        var dataRepository  = NSubstitute.Substitute.For<IDataRepository>();
-        var actorDomainData = new ActorDomainData(){ Health = health };
-        dataRepository.GetActorDomainData(actorDataId).Returns(actorDomainData);
+
+        var dataRepository = Substitute.For<IDataRepository>();
+        var actorData      = Substitute.For<IActorData>();
+        dataRepository.GetActorDomainData(actorDataId).Returns(actorData);
 
         var actorRepository    = new ActorRepository();
         var createActorUseCase = new CreateActorUseCase(domainEventBus, actorRepository, dataRepository);
@@ -33,8 +33,7 @@ public class CreateActorUseCaseTest : DDDUnitTestFixture
         Assert.NotNull(actor.ActorDataId);
         Assert.AreEqual(actorDataId, actor.ActorDataId);
         //腳色預設面右
-        Assert.AreEqual(1, actor.Direction);
-        Assert.AreEqual(health, actor.Health);  
+        Assert.AreEqual(1,     actor.Direction);
         Assert.AreEqual(false, actor.IsDead);
     }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e8c00544dfb418b9d45d998a6721b23, type: 3}
   m_Name: SOBinder
   m_EditorClassIdentifier: 
-  ActorDataOverView: {fileID: 11400000, guid: c8aeb8c79df922045af5600810b112c6, type: 2}
+  actorDataOverview: {fileID: 11400000, guid: c8aeb8c79df922045af5600810b112c6, type: 2}
